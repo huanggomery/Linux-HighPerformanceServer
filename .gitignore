@@ -8,3 +8,6 @@ xmake.lua
 
 # vscode
 .vscode/
+
+# Ohters
+test.cpp
