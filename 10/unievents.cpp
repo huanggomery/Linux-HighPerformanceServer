@@ -38,6 +38,7 @@ void addsig(int sig)
 
 int main(int argc, char *argv[])
 {
+    printf("pid: %d\n", getpid());
     int port;
     if (argc > 2)
         error_handle("arguments number error");
@@ -120,13 +121,26 @@ int main(int argc, char *argv[])
                     switch (signals[j])
                     {
                     case SIGHUP:
-                    case SIGCHLD:
+                    {
+                        printf("get SIGHUP\n");
                         continue;
+                    }
+                    case SIGCHLD:
+                    {
+                        printf("get SIGCHLD\n");
+                        continue;
+                    }
                     case SIGTERM:
+                    {
+                        printf("get SIGTERM\n");
+                        stop_server = true;
+                        break;
+                    }
                     case SIGINT:
                     {
-                        printf("get int signal\n");
+                        printf("get SIGINT\n");
                         stop_server = true;
+                        break;
                     }
                     }
                 }
