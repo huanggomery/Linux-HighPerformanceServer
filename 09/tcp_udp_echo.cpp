@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <errno.h>
+#include <sys/epoll.h>
 
 #define BUF_SIZE 50
 #define MAX_EVENT_NUM 1024
