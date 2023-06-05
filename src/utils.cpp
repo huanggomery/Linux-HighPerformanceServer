@@ -76,3 +76,25 @@ int connect_with_timeout(const char *ip, int port, int time)
     }
     return sockfd;
 }
+
+extern int pipefd[2];
+// 信号处理函数，仅仅通过pipe告知主函数，实际处理动作在主函数中完成
+void sig_hander(int sig)
+{
+    // 保存errno，在函数最后恢复，以保证函数的可重入性
+    int old_errno = errno;
+    send(pipefd[1], &sig, 1, 0);
+    errno = old_errno;
+}
+
+// 设置信号的信号处理函数，默认为sig_handler
+void addsig(int sig, __sighandler_t handler)
+{
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
+    act.sa_flags |= SA_RESTART;
+    sigfillset(&act.sa_mask);
+    act.sa_handler = handler;
+    if (sigaction(sig, &act, NULL) == -1)
+        error_handle("sigaction error");
+}
