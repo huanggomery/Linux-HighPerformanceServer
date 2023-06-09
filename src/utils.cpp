@@ -120,15 +120,15 @@ int create_and_listen(const char *ip, int port)
     return sockfd;
 }
 
-extern int pipefd[2];
-// 信号处理函数，仅仅通过pipe告知主函数，实际处理动作在主函数中完成
-void sig_hander(int sig)
-{
-    // 保存errno，在函数最后恢复，以保证函数的可重入性
-    int old_errno = errno;
-    send(pipefd[1], &sig, 1, 0);
-    errno = old_errno;
-}
+// extern int pipefd[2];
+// // 信号处理函数，仅仅通过pipe告知主函数，实际处理动作在主函数中完成
+// void sig_hander(int sig)
+// {
+//     // 保存errno，在函数最后恢复，以保证函数的可重入性
+//     int old_errno = errno;
+//     send(pipefd[1], &sig, 1, 0);
+//     errno = old_errno;
+// }
 
 // 设置信号的信号处理函数，默认为sig_handler
 void addsig(int sig, __sighandler_t handler)
